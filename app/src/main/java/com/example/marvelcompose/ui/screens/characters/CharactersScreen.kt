@@ -3,6 +3,7 @@ package com.example.marvelcompose.ui.screens.characters
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -24,31 +25,37 @@ import com.example.marvelcompose.data.repositories.CharactersRepository
 
 @ExperimentalFoundationApi
 @Composable
-fun CharactersScreen() {
+fun CharactersScreen(onClick: (Character) -> Unit) {
     var characterState by rememberSaveable { mutableStateOf(emptyList<Character>()) }
 
     LaunchedEffect(Unit) {
         characterState = CharactersRepository().getCharacters()
     }
-    CharactersScreen(character = characterState)
+    CharactersScreen(
+        character = characterState,
+        onClick = onClick
+    )
 }
 
 @ExperimentalFoundationApi
 @Composable
-fun CharactersScreen(character: List<Character>) {
+fun CharactersScreen(character: List<Character>, onClick: (Character) -> Unit) {
     LazyVerticalGrid(
         cells = GridCells.Adaptive(180.dp),
         contentPadding = PaddingValues(4.dp)
     ) {
         items(character) {
-            CharacterItem(it)
+            CharacterItem(
+                character = it,
+                modifier = Modifier.clickable { onClick(it) }
+            )
         }
     }
 }
 
 @Composable
-fun CharacterItem(character: Character) {
-    Column(modifier = Modifier.padding(8.dp)) {
+fun CharacterItem(character: Character, modifier: Modifier = Modifier) {
+    Column(modifier = modifier.padding(8.dp)) {
         Card {
             Image(
                 painter = rememberImagePainter(character.thumbnail),
@@ -66,17 +73,5 @@ fun CharacterItem(character: Character) {
             maxLines = 2,
             modifier = Modifier.padding(8.dp, 16.dp)
         )
-    }
-}
-
-@ExperimentalFoundationApi
-@Preview
-@Composable
-fun CharacterScreenPreview() {
-    val characters = (1..10).map {
-        Character(it, "name $it", "Description", "")
-    }
-    MarvelApp {
-        CharactersScreen(character = characters)
     }
 }
