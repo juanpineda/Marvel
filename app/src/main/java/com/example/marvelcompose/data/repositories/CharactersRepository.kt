@@ -2,6 +2,7 @@ package com.example.marvelcompose.data.repositories
 
 import com.example.marvelcompose.data.entities.Character
 import com.example.marvelcompose.data.entities.Reference
+import com.example.marvelcompose.data.entities.Url
 import com.example.marvelcompose.data.network.ApiClient
 import com.example.marvelcompose.data.network.entities.asString
 import com.example.marvelcompose.data.network.entities.Character as NetworkCharacter
@@ -27,6 +28,7 @@ fun NetworkCharacter.asCharacter(): Character {
     val series = series.items.map { Reference(it.name) }
     val events = events.items.map { Reference(it.name) }
     val stories = stories.items.map { Reference(it.name) }
+    val urls = urls.map { Url(type = it.type, url = it.url) }
     return Character(
         id,
         name,
@@ -35,6 +37,7 @@ fun NetworkCharacter.asCharacter(): Character {
         comics,
         series,
         events,
-        stories
+        stories,
+        urls
     )
 }

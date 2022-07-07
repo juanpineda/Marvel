@@ -25,32 +25,55 @@ import com.example.marvelcompose.data.repositories.CharactersRepository
 
 @ExperimentalMaterialApi
 @Composable
-fun CharacterDetailScreen(id: Int) {
+fun CharacterDetailScreen(id: Int, onUpClick: () -> Unit) {
     var characterState by remember { mutableStateOf<Character?>(null) }
     LaunchedEffect(Unit) {
         characterState = CharactersRepository().findCharacters(id)
     }
     characterState?.let { character ->
-        CharacterDetailScreen(character)
+        CharacterDetailScreen(character, onUpClick = onUpClick)
     }
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun CharacterDetailScreen(character: Character) {
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        item {
-            Header(character)
+fun CharacterDetailScreen(character: Character, onUpClick: () -> Unit) {
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text(character.name) },
+            navigationIcon = { ArrowBackIcon(onUpClick) },
+            actions = { AppBarOverflowMenu(urls = character.urls) }
+        )
+    }) { padding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(padding)
+        ) {
+            item {
+                Header(character)
+            }
+            section(Icons.Default.Collections, "Series", character.series)
+            section(Icons.Default.Event, "Event", character.events)
+            section(Icons.Default.Book, "Comic", character.comics)
+            section(Icons.Default.Bookmark, "Comic", character.stories)
         }
-        section(Icons.Default.Collections,"Series",character.series)
-        section(Icons.Default.Event,"Event",character.events)
-        section(Icons.Default.Book,"Comic",character.comics)
-        section(Icons.Default.Bookmark,"Comic",character.stories)
+    }
+}
+
+@Composable
+fun ArrowBackIcon(onUpClick: () -> Unit) {
+    IconButton(onClick = onUpClick) {
+        Icon(
+            imageVector = Icons.Default.ArrowBack,
+            contentDescription = null
+        )
     }
 }
 
 @ExperimentalMaterialApi
 fun LazyListScope.section(icon: ImageVector, name: String, items: List<Reference>) {
+    if (items.isEmpty()) return
     item {
         Text(
             text = name,
@@ -66,36 +89,36 @@ fun LazyListScope.section(icon: ImageVector, name: String, items: List<Reference
     }
 }
 
-    @Composable
-    fun Header(character: Character) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Image(
-                painter = rememberImagePainter(character.thumbnail),
-                contentDescription = character.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.LightGray)
-                    .aspectRatio(1f)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = character.name,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.h4,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = character.description,
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(16.dp, 0.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+@Composable
+fun Header(character: Character) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Image(
+            painter = rememberImagePainter(character.thumbnail),
+            contentDescription = character.name,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.LightGray)
+                .aspectRatio(1f)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = character.name,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.h4,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = character.description,
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier.padding(16.dp, 0.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
     }
+}
 
 @ExperimentalMaterialApi
 @Preview(widthDp = 400, heightDp = 700)
@@ -109,9 +132,10 @@ fun CharacterDetailScreenPreview() {
         listOf(Reference("Comic 1"), Reference("Comic 2")),
         listOf(Reference("Comic 1"), Reference("Comic 2")),
         listOf(Reference("Comic 1"), Reference("Comic 2")),
-        listOf(Reference("Comic 1"), Reference("Comic 2"))
+        listOf(Reference("Comic 1"), Reference("Comic 2")),
+        listOf()
     )
     MarvelApp {
-        CharacterDetailScreen(character)
+        CharacterDetailScreen(character) {}
     }
 }

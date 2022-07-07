@@ -23,7 +23,9 @@ fun Navigation() {
             })
         }
         composable(NavItem.CharacterDetail) {
-            CharacterDetailScreen(id = it.finArg(NavArg.ItemId))
+            CharacterDetailScreen(
+                id = it.finArg(NavArg.ItemId),
+                onUpClick = { navController.popBackStack() })
         }
     }
 }
