@@ -14,11 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.marvelcompose.MarvelApp
+import com.example.marvelcompose.R
 import com.example.marvelcompose.data.entities.Character
 import com.example.marvelcompose.data.entities.Reference
 import com.example.marvelcompose.data.repositories.CharactersRepository
@@ -38,13 +40,7 @@ fun CharacterDetailScreen(id: Int, onUpClick: () -> Unit) {
 @ExperimentalMaterialApi
 @Composable
 fun CharacterDetailScreen(character: Character, onUpClick: () -> Unit) {
-    Scaffold(topBar = {
-        TopAppBar(
-            title = { Text(character.name) },
-            navigationIcon = { ArrowBackIcon(onUpClick) },
-            actions = { AppBarOverflowMenu(urls = character.urls) }
-        )
-    }) { padding ->
+    CharacterDetailScaffold(character = character, onUpClick) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()

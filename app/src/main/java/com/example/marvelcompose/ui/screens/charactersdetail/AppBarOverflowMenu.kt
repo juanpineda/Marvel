@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalUriHandler
 import com.example.marvelcompose.data.entities.Url
 
+@ExperimentalMaterialApi
 @Composable
 fun AppBarOverflowMenu(urls: List<Url>) {
     var showMenu by remember { mutableStateOf(false) }
