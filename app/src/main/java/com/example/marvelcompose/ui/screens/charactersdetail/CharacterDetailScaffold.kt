@@ -48,9 +48,9 @@ fun CharacterDetailScaffold(
             BottomAppBar(
                 cutoutShape = CircleShape
             ) {
-                AppBarIcon(imageVector = Icons.Default.Menu, onClick = { /*TODO*/ })
+                BottomBarIcon(imageVector = Icons.Default.Menu, onClick = { /*TODO*/ })
                 Spacer(modifier = Modifier.weight(1f))
-                AppBarIcon(imageVector = Icons.Default.Favorite, onClick = { /*TODO*/ })
+                BottomBarIcon(imageVector = Icons.Default.Favorite, onClick = { /*TODO*/ })
             }
         },
         content = content
