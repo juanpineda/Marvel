@@ -29,7 +29,7 @@ fun CharactersScreen(onClick: (Character) -> Unit) {
     var characterState by rememberSaveable { mutableStateOf(emptyList<Character>()) }
 
     LaunchedEffect(Unit) {
-        characterState = CharactersRepository().getCharacters()
+        characterState = CharactersRepository().get()
     }
     CharactersScreen(
         character = characterState,

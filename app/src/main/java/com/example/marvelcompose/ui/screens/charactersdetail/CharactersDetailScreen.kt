@@ -30,7 +30,7 @@ import com.example.marvelcompose.data.repositories.CharactersRepository
 fun CharacterDetailScreen(id: Int, onUpClick: () -> Unit) {
     var characterState by remember { mutableStateOf<Character?>(null) }
     LaunchedEffect(Unit) {
-        characterState = CharactersRepository().findCharacters(id)
+        characterState = CharactersRepository().find(id)
     }
     characterState?.let { character ->
         CharacterDetailScreen(character, onUpClick = onUpClick)

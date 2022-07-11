@@ -1,8 +1,8 @@
 package com.example.marvelcompose.data.network.entities
 
-data class Events(
+data class ApiEventsList(
     val available: Int,
     val collectionURI: String,
-    val items: List<Item>,
+    val items: List<ApiEvent>,
     val returned: Int
 )

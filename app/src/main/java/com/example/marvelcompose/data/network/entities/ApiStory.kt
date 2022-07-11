@@ -1,6 +1,7 @@
 package com.example.marvelcompose.data.network.entities
 
-data class Item(
+data class ApiStory(
     val name: String,
-    val resourceURI: String
+    val resourceURI: String,
+    val type: String
 )
