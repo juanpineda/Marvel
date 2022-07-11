@@ -16,31 +16,36 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.app.ShareCompat
 import com.example.marvelcompose.R
 import com.example.marvelcompose.data.entities.Character
+import com.example.marvelcompose.data.entities.MarvelItem
+import com.example.marvelcompose.data.entities.Url
+import com.example.marvelcompose.ui.navigation.ArrowBackIcon
 
 @ExperimentalMaterialApi
 @Composable
-fun CharacterDetailScaffold(
-    character: Character,
+fun MarvelItemDetailScaffold(
+    marvelItem: MarvelItem,
     onUpClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(character.name) },
+                title = { Text(marvelItem.title) },
                 navigationIcon = { ArrowBackIcon(onUpClick) },
-                actions = { AppBarOverflowMenu(urls = character.urls) }
+                actions = { AppBarOverflowMenu(marvelItem.urls) }
+
             )
         },
         floatingActionButton = {
-            if (character.urls.isNotEmpty())
-                FloatingActionButton(onClick = { shareCharacter(context, character) }) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = stringResource(id = R.string.share_character)
-                    )
+            if (marvelItem.urls.isNotEmpty()) {
+                FloatingActionButton(
+                    onClick = { shareCharacter(context, marvelItem.title, marvelItem.urls.first()) }
+                ) {
+                    Icon(imageVector = Icons.Default.Share, contentDescription = null)
                 }
+            }
         },
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
@@ -48,21 +53,21 @@ fun CharacterDetailScaffold(
             BottomAppBar(
                 cutoutShape = CircleShape
             ) {
-                BottomBarIcon(imageVector = Icons.Default.Menu, onClick = { /*TODO*/ })
+                AppBarIcon(imageVector = Icons.Default.Menu, onClick = { })
                 Spacer(modifier = Modifier.weight(1f))
-                BottomBarIcon(imageVector = Icons.Default.Favorite, onClick = { /*TODO*/ })
+                AppBarIcon(imageVector = Icons.Default.Favorite, onClick = { })
             }
         },
         content = content
     )
 }
 
-fun shareCharacter(context: Context, character: Character) {
-    ShareCompat
+private fun shareCharacter(context: Context, name: String, url: Url) {
+    val intent = ShareCompat
         .IntentBuilder(context)
         .setType("text/plain")
-        .setSubject(character.name)
-        .setText(character.urls.first().url)
+        .setSubject(name)
+        .setText(url.destination)
         .intent
-        .also(context::startActivity)
+    context.startActivity(intent)
 }

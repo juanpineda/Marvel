@@ -11,23 +11,25 @@ import com.example.marvelcompose.data.entities.Url
 @Composable
 fun AppBarOverflowMenu(urls: List<Url>) {
     if (urls.isEmpty()) return
+
     var showMenu by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
 
     IconButton(onClick = { showMenu = !showMenu }) {
         Icon(
             imageVector = Icons.Default.MoreVert,
-            contentDescription = "More actions"
+            contentDescription = "More Actions"
         )
         DropdownMenu(
             expanded = showMenu,
-            onDismissRequest = { showMenu = false }) {
-            urls.map {
+            onDismissRequest = { showMenu = false }
+        ) {
+            urls.forEach {
                 DropdownMenuItem(onClick = {
-                    uriHandler.openUri(it.url)
+                    uriHandler.openUri(it.destination)
                     showMenu = false
                 }) {
-                    ListItem(text = { Text(text = it.type) })
+                    ListItem(text = { Text(it.type) })
                 }
             }
         }

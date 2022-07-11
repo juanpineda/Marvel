@@ -10,8 +10,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import com.example.marvelcompose.ui.screens.characters.CharactersScreen
-import com.example.marvelcompose.ui.screens.charactersdetail.CharacterDetailScreen
+import com.example.marvelcompose.ui.screens.charactersdetail.MarvelItemDetailScreen
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -26,6 +27,7 @@ fun Navigation() {
     }
 }
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 private fun NavGraphBuilder.charactersNav(navController: NavController) {
@@ -43,8 +45,8 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
             )
         }
         composable(NavItem.ContentDetail(Feature.CHARACTERS)) {
-            CharacterDetailScreen(
-                id = it.finArg(NavArg.ItemId),
+            MarvelItemDetailScreen(
+                characterId = it.finArg(NavArg.ItemId),
                 onUpClick = { navController.popBackStack() })
         }
     }

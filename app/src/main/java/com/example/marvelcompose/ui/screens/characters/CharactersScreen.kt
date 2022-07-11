@@ -18,60 +18,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.marvelcompose.MarvelApp
 import com.example.marvelcompose.data.entities.Character
 import com.example.marvelcompose.data.repositories.CharactersRepository
+import com.example.marvelcompose.ui.screens.common.MarvelItemsListScreen
 
+@ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
 fun CharactersScreen(onClick: (Character) -> Unit) {
-    var characterState by rememberSaveable { mutableStateOf(emptyList<Character>()) }
-
+    var charactersState by remember() { mutableStateOf(emptyList<Character>()) }
     LaunchedEffect(Unit) {
-        characterState = CharactersRepository().get()
+        charactersState = CharactersRepository().get()
     }
-    CharactersScreen(
-        character = characterState,
+    MarvelItemsListScreen(
+        items = charactersState,
         onClick = onClick
     )
-}
-
-@ExperimentalFoundationApi
-@Composable
-fun CharactersScreen(character: List<Character>, onClick: (Character) -> Unit) {
-    LazyVerticalGrid(
-        cells = GridCells.Adaptive(180.dp),
-        contentPadding = PaddingValues(4.dp)
-    ) {
-        items(character) {
-            CharacterItem(
-                character = it,
-                modifier = Modifier.clickable { onClick(it) }
-            )
-        }
-    }
-}
-
-@Composable
-fun CharacterItem(character: Character, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(8.dp)) {
-        Card {
-            Image(
-                painter = rememberImagePainter(character.thumbnail),
-                contentDescription = character.name,
-                modifier = Modifier
-                    .background(Color.LightGray)
-                    .fillMaxWidth()
-                    .aspectRatio(1f),
-                contentScale = ContentScale.Crop
-            )
-        }
-        Text(
-            text = character.name,
-            style = MaterialTheme.typography.subtitle1,
-            maxLines = 2,
-            modifier = Modifier.padding(8.dp, 16.dp)
-        )
-    }
 }
