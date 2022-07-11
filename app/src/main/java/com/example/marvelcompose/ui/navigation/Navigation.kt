@@ -3,21 +3,16 @@ package com.example.marvelcompose.ui.navigation
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.example.marvelcompose.ui.screens.*
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun Navigation() {
-    val navController = rememberNavController()
+fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Feature.CHARACTERS.route
@@ -33,19 +28,19 @@ fun Navigation() {
 @ExperimentalFoundationApi
 private fun NavGraphBuilder.charactersNav(navController: NavController) {
     navigation(
-        startDestination = NavItem.ContentType(Feature.CHARACTERS).route,
+        startDestination = NavCommand.ContentType(Feature.CHARACTERS).route,
         route = Feature.CHARACTERS.route
     ) {
-        composable(NavItem.ContentType(Feature.CHARACTERS)) {
+        composable(NavCommand.ContentType(Feature.CHARACTERS)) {
             CharactersScreen(
                 onClick = { character ->
                     navController.navigate(
-                        NavItem.ContentTypeDetail(Feature.CHARACTERS).createRoute(character.id)
+                        NavCommand.ContentTypeDetail(Feature.CHARACTERS).createRoute(character.id)
                     )
                 }
             )
         }
-        composable(NavItem.ContentTypeDetail(Feature.CHARACTERS)) {
+        composable(NavCommand.ContentTypeDetail(Feature.CHARACTERS)) {
             CharacterDetailScreen(
                 characterId = it.finArg(NavArg.ItemId),
                 onUpClick = { navController.popBackStack() })
@@ -59,20 +54,20 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
 @ExperimentalFoundationApi
 private fun NavGraphBuilder.comicsNav(navController: NavController) {
     navigation(
-        startDestination = NavItem.ContentType(Feature.COMICS).route,
+        startDestination = NavCommand.ContentType(Feature.COMICS).route,
         route = Feature.COMICS.route
     ) {
-        composable(NavItem.ContentType(Feature.COMICS)) {
+        composable(NavCommand.ContentType(Feature.COMICS)) {
             ComicsScreen(
                 onClick = { comic ->
                     navController.navigate(
-                        NavItem.ContentTypeDetail(Feature.COMICS).createRoute(comic.id)
+                        NavCommand.ContentTypeDetail(Feature.COMICS).createRoute(comic.id)
                     )
                 }
             )
         }
 
-        composable(NavItem.ContentTypeDetail(Feature.COMICS)) {
+        composable(NavCommand.ContentTypeDetail(Feature.COMICS)) {
             val id = it.finArg<Int>(NavArg.ItemId)
             ComicDetailScreen(
                 comicId = id,
@@ -87,20 +82,20 @@ private fun NavGraphBuilder.comicsNav(navController: NavController) {
 @ExperimentalFoundationApi
 private fun NavGraphBuilder.eventsNav(navController: NavController) {
     navigation(
-        startDestination = NavItem.ContentType(Feature.EVENTS).route,
+        startDestination = NavCommand.ContentType(Feature.EVENTS).route,
         route = Feature.EVENTS.route
     ) {
-        composable(NavItem.ContentType(Feature.EVENTS)) {
+        composable(NavCommand.ContentType(Feature.EVENTS)) {
             EventsScreen(
                 onClick = { event ->
                     navController.navigate(
-                        NavItem.ContentTypeDetail(Feature.EVENTS).createRoute(event.id)
+                        NavCommand.ContentTypeDetail(Feature.EVENTS).createRoute(event.id)
                     )
                 }
             )
         }
 
-        composable(NavItem.ContentTypeDetail(Feature.EVENTS)) {
+        composable(NavCommand.ContentTypeDetail(Feature.EVENTS)) {
             val id = it.finArg<Int>(NavArg.ItemId)
             EventDetailScreen(
                 eventId = id,
@@ -111,7 +106,7 @@ private fun NavGraphBuilder.eventsNav(navController: NavController) {
 }
 
 private fun NavGraphBuilder.composable(
-    navCommand: NavItem,
+    navCommand: NavCommand,
     content: @Composable (NavBackStackEntry) -> Unit
 ) {
     composable(
