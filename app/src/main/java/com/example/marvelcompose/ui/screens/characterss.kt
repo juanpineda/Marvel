@@ -1,4 +1,4 @@
-package com.example.marvelcompose.ui.screens.characters
+package com.example.marvelcompose.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -23,6 +24,7 @@ import coil.compose.rememberImagePainter
 import com.example.marvelcompose.MarvelApp
 import com.example.marvelcompose.data.entities.Character
 import com.example.marvelcompose.data.repositories.CharactersRepository
+import com.example.marvelcompose.ui.screens.common.MarvelItemDetailScreen
 import com.example.marvelcompose.ui.screens.common.MarvelItemsListScreen
 
 @ExperimentalCoilApi
@@ -37,4 +39,17 @@ fun CharactersScreen(onClick: (Character) -> Unit) {
         items = charactersState,
         onClick = onClick
     )
+}
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun CharacterDetailScreen(characterId: Int, onUpClick: () -> Unit) {
+    var characterState by remember { mutableStateOf<Character?>(null) }
+    LaunchedEffect(Unit) {
+        characterState = CharactersRepository.find(characterId)
+    }
+    characterState?.let {
+        MarvelItemDetailScreen(it, onUpClick)
+    }
 }

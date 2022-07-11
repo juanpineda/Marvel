@@ -1,4 +1,4 @@
-package com.example.marvelcompose.ui.screens.charactersdetail
+package com.example.marvelcompose.ui.screens.common
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -10,37 +10,20 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.example.marvelcompose.MarvelApp
 import com.example.marvelcompose.R
-import com.example.marvelcompose.data.entities.Character
 import com.example.marvelcompose.data.entities.MarvelItem
 import com.example.marvelcompose.data.entities.Reference
 import com.example.marvelcompose.data.entities.ReferenceList
-import com.example.marvelcompose.data.repositories.CharactersRepository
-
-@ExperimentalCoilApi
-@ExperimentalMaterialApi
-@Composable
-fun MarvelItemDetailScreen(characterId: Int, onUpClick: () -> Unit) {
-    var characterState by remember { mutableStateOf<Character?>(null) }
-    LaunchedEffect(Unit) {
-        characterState = CharactersRepository.find(characterId)
-    }
-    characterState?.let {
-        MarvelItemDetailScreen(it, onUpClick)
-    }
-}
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi

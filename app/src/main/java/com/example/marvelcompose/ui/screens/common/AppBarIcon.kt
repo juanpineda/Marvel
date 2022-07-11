@@ -1,4 +1,4 @@
-package com.example.marvelcompose.ui.screens.charactersdetail
+package com.example.marvelcompose.ui.screens.common
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
