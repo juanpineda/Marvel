@@ -1,10 +1,7 @@
 package com.example.marvelcompose.data.repositories
 
 import com.example.marvelcompose.data.entities.*
-import com.example.marvelcompose.data.network.entities.ApiCharacter
-import com.example.marvelcompose.data.network.entities.ApiComic
-import com.example.marvelcompose.data.network.entities.ApiReferenceList
-import com.example.marvelcompose.data.network.entities.asString
+import com.example.marvelcompose.data.network.entities.*
 
 fun ApiCharacter.asCharacter(): Character = Character(
     id,
@@ -14,6 +11,20 @@ fun ApiCharacter.asCharacter(): Character = Character(
     listOf(
         comics.toDomain(ReferenceList.Type.COMIC),
         events.toDomain(ReferenceList.Type.EVENT),
+        series.toDomain(ReferenceList.Type.SERIES),
+        stories.toDomain(ReferenceList.Type.STORY)
+    ),
+    urls.map { Url(it.type, it.url) }
+)
+
+fun ApiEvent.asEvent(): Event = Event(
+    id,
+    title,
+    description,
+    thumbnail.asString(),
+    listOf(
+        comics.toDomain(ReferenceList.Type.COMIC),
+        characters.toDomain(ReferenceList.Type.EVENT),
         series.toDomain(ReferenceList.Type.SERIES),
         stories.toDomain(ReferenceList.Type.STORY)
     ),

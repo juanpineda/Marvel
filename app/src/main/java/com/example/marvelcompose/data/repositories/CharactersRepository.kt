@@ -3,7 +3,7 @@ package com.example.marvelcompose.data.repositories
 import com.example.marvelcompose.data.entities.Character
 import com.example.marvelcompose.data.network.ApiClient
 
-class CharactersRepository : Repository<Character>() {
+object CharactersRepository : Repository<Character>() {
 
     suspend fun get(): List<Character> = super.get {
         ApiClient

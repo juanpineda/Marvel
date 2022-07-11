@@ -31,7 +31,7 @@ import com.example.marvelcompose.ui.screens.common.MarvelItemsListScreen
 fun CharactersScreen(onClick: (Character) -> Unit) {
     var charactersState by remember() { mutableStateOf(emptyList<Character>()) }
     LaunchedEffect(Unit) {
-        charactersState = CharactersRepository().get()
+        charactersState = CharactersRepository.get()
     }
     MarvelItemsListScreen(
         items = charactersState,
