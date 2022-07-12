@@ -16,7 +16,9 @@ import com.example.marvelcompose.ui.navigation.AppBottomNavigation
 import com.example.marvelcompose.ui.navigation.Navigation
 import com.example.marvelcompose.ui.navigation.navigatePopInUpToStartDestination
 import com.example.marvelcompose.ui.theme.MarvelComposeTheme
+import com.google.accompanist.pager.ExperimentalPagerApi
 
+@ExperimentalPagerApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
