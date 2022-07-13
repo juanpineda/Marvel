@@ -43,9 +43,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
             )
         }
         composable(NavCommand.ContentTypeDetail(Feature.CHARACTERS)) {
-            CharacterDetailScreen(
-                characterId = it.finArg(NavArg.ItemId),
-                onUpClick = { navController.popBackStack() })
+            CharacterDetailScreen(characterId = it.finArg(NavArg.ItemId))
         }
     }
 }
@@ -72,10 +70,7 @@ private fun NavGraphBuilder.comicsNav(navController: NavController) {
 
         composable(NavCommand.ContentTypeDetail(Feature.COMICS)) {
             val id = it.finArg<Int>(NavArg.ItemId)
-            ComicDetailScreen(
-                comicId = id,
-                onUpClick = { navController.popBackStack() }
-            )
+            ComicDetailScreen(comicId = id)
         }
     }
 }
@@ -100,10 +95,7 @@ private fun NavGraphBuilder.eventsNav(navController: NavController) {
 
         composable(NavCommand.ContentTypeDetail(Feature.EVENTS)) {
             val id = it.finArg<Int>(NavArg.ItemId)
-            EventDetailScreen(
-                eventId = id,
-                onUpClick = { navController.popBackStack() }
-            )
+            EventDetailScreen(eventId = id)
         }
     }
 }

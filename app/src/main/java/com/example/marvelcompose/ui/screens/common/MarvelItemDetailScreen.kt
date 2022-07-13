@@ -28,13 +28,9 @@ import com.example.marvelcompose.data.entities.ReferenceList
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun MarvelItemDetailScreen(
-    marvelItem: MarvelItem,
-    onUpClick: () -> Unit
-) {
+fun MarvelItemDetailScreen(marvelItem: MarvelItem) {
     MarvelItemDetailScaffold(
-        marvelItem = marvelItem,
-        onUpClick = onUpClick
+        marvelItem = marvelItem
     ) { padding ->
         LazyColumn(
             modifier = Modifier
