@@ -3,7 +3,6 @@ package com.example.marvelcompose.ui.navigation
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -15,6 +14,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import coil.annotation.ExperimentalCoilApi
 import com.example.marvelcompose.ui.screens.*
+import com.example.marvelcompose.ui.screens.characters.CharacterDetailScreen
+import com.example.marvelcompose.ui.screens.characters.CharactersScreen
+import com.example.marvelcompose.ui.screens.events.EventDetailScreen
+import com.example.marvelcompose.ui.screens.events.EventsScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @ExperimentalPagerApi
@@ -55,7 +58,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
             )
         }
         composable(NavCommand.ContentTypeDetail(Feature.CHARACTERS)) {
-            CharacterDetailScreen(characterId = it.finArg(NavArg.ItemId))
+            CharacterDetailScreen()
         }
     }
 }

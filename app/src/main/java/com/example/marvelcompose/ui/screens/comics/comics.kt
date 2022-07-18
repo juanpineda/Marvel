@@ -36,6 +36,7 @@ fun ComicsScreen(onClick: (Comic) -> Unit) {
             state = pagerState
         ) {
             MarvelItemList(
+                loading = false,
                 items = comicsState,
                 onClick = onClick
             )
@@ -90,6 +91,6 @@ fun ComicDetailScreen(comicId: Int) {
         comicState = ComicsRepository.find(comicId)
     }
     comicState?.let {
-        MarvelItemDetailScreen(it)
+        MarvelItemDetailScreen(marvelItem = it)
     }
 }
