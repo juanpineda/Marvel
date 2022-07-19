@@ -1,8 +1,7 @@
 package com.example.marvelcompose.ui.screens.characters
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marvelcompose.data.entities.Character
@@ -11,13 +10,13 @@ import kotlinx.coroutines.launch
 
 class CharactersViewModel : ViewModel() {
 
-    var state by mutableStateOf(UiState())
-        private set
+    private val _state = MutableLiveData<UiState>()
+    val state: LiveData<UiState> get() = _state
 
     init {
         viewModelScope.launch {
-            state = UiState(loading = true)
-            state = UiState(items = CharactersRepository.get())
+            _state.value = UiState(loading = true)
+            _state.value = UiState(items = CharactersRepository.get())
         }
     }
 
