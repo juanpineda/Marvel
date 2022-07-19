@@ -13,9 +13,10 @@ import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import coil.annotation.ExperimentalCoilApi
-import com.example.marvelcompose.ui.screens.*
 import com.example.marvelcompose.ui.screens.characters.CharacterDetailScreen
 import com.example.marvelcompose.ui.screens.characters.CharactersScreen
+import com.example.marvelcompose.ui.screens.comics.ComicDetailScreen
+import com.example.marvelcompose.ui.screens.comics.ComicsScreen
 import com.example.marvelcompose.ui.screens.events.EventDetailScreen
 import com.example.marvelcompose.ui.screens.events.EventsScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -84,8 +85,7 @@ private fun NavGraphBuilder.comicsNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.COMICS)) {
-            val id = it.finArg<Int>(NavArg.ItemId)
-            ComicDetailScreen(comicId = id)
+            ComicDetailScreen()
         }
     }
 }
@@ -109,8 +109,7 @@ private fun NavGraphBuilder.eventsNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.EVENTS)) {
-            val id = it.finArg<Int>(NavArg.ItemId)
-            EventDetailScreen(eventId = id)
+            EventDetailScreen()
         }
     }
 }
