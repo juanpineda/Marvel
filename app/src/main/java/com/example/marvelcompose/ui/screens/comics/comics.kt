@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -35,7 +36,7 @@ fun ComicsScreen(onClick: (Comic) -> Unit, viewModel: ComicsViewModel = viewMode
         ) { page ->
             val format = formats[page]
             viewModel.formatRequested(format)
-            val pageState by viewModel.state.getValue(format)
+            val pageState by viewModel.state.getValue(format).collectAsState()
             MarvelItemList(
                 loading = pageState.loading,
                 items = pageState.items,
@@ -87,8 +88,9 @@ private fun Comic.Format.toStringRes(): Int = when (this) {
 @ExperimentalMaterialApi
 @Composable
 fun ComicDetailScreen(comicsDetailViewModel: ComicsDetailViewModel = viewModel()) {
+    val state by comicsDetailViewModel.state.collectAsState()
     MarvelItemDetailScreen(
-        loading = comicsDetailViewModel.state.loading,
-        marvelItem = comicsDetailViewModel.state.item
+        loading = state.loading,
+        marvelItem = state.item
     )
 }
