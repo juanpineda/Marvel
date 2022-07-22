@@ -4,7 +4,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.right
+import com.example.marvelcompose.data.entities.Character
 import com.example.marvelcompose.data.entities.Comic
+import com.example.marvelcompose.data.network.entities.Result
 import com.example.marvelcompose.data.repositories.ComicsRepository
 import com.example.marvelcompose.ui.screens.characters.CharactersViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +21,7 @@ class ComicsViewModel : ViewModel() {
 
     data class UiState(
         val loading: Boolean = false,
-        val items: List<Comic> = emptyList()
+        val items: Result<List<Comic>> = emptyList<Comic>().right()
     )
 
     fun formatRequested(format: Comic.Format) {

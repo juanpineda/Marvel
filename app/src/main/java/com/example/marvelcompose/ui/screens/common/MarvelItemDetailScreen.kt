@@ -24,31 +24,34 @@ import com.example.marvelcompose.R
 import com.example.marvelcompose.data.entities.MarvelItem
 import com.example.marvelcompose.data.entities.Reference
 import com.example.marvelcompose.data.entities.ReferenceList
+import com.example.marvelcompose.data.network.entities.Result
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun MarvelItemDetailScreen(loading: Boolean = false, marvelItem: MarvelItem? = null) {
+fun MarvelItemDetailScreen(loading: Boolean = false, marvelItem: Result<MarvelItem?>) {
     if (loading)
         CircularProgressIndicator()
-    if (marvelItem != null)
-        MarvelItemDetailScaffold(
-            marvelItem = marvelItem
-        ) { padding ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(padding)
-            ) {
-                item {
-                    Header(marvelItem = marvelItem)
-                }
-                marvelItem.references.forEach {
-                    val (icon, @StringRes stringRes) = it.type.createUiData()
-                    section(icon, stringRes, it.references)
+    marvelItem.fold({ ErrorMessage(error = it) }) { item ->
+        if (item != null)
+            MarvelItemDetailScaffold(
+                marvelItem = item
+            ) { padding ->
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(padding)
+                ) {
+                    item {
+                        Header(marvelItem = item)
+                    }
+                    item.references.forEach { list ->
+                        val (icon, @StringRes stringRes) = list.type.createUiData()
+                        section(icon, stringRes, list.references)
+                    }
                 }
             }
-        }
+    }
 }
 
 @ExperimentalCoilApi

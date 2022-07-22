@@ -15,20 +15,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import com.example.marvelcompose.data.entities.MarvelItem
+import com.example.marvelcompose.data.network.entities.Result
 
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
 fun <T : MarvelItem> MarvelItemsListScreen(
     loading: Boolean = false,
-    items: List<T>,
+    items: Result<List<T>>,
     onClick: (T) -> Unit
 ) {
-    MarvelItemList(
-        loading = loading,
-        items = items,
-        onClick = onClick
-    )
+    items.fold({ ErrorMessage(it) }) {
+        MarvelItemList(
+            loading = loading,
+            items = it,
+            onClick = onClick
+        )
+    }
 }
 
 @ExperimentalCoilApi
